@@ -1,0 +1,30 @@
+<div class="jumbotron text-enter">
+    <h1>All ToDOs</h1>
+</div>
+
+
+<table class="table table-bordered table-hover table-stripted">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <%for (var todo of todos) { %>
+            <tr>
+                <td>
+                    <%=todo.name %>
+                </td>
+                <td>
+                    <%=todo.description %>
+                </td>
+                <td>
+                    <a href="/todos/<%todos.slug %>" class="btn btn-sm btn-primar">View</a>
+                </td>
+            </tr>
+            <% } %>
+    </tbody>
+
+</table>
