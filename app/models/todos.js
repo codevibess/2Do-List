@@ -1,5 +1,3 @@
-import { Schema } from 'mongoose';
-
 const mongoose = require('mongoose');
     Schema = mongoose.Schema;
 
@@ -14,21 +12,22 @@ const todoSchema = new Schema({
 });
 
 //middlware which make sure that slug is created from name
-todoSchema.pre('save',function(next){
+todoSchema.pre('save', function(next){
     this.slug = slugify(this.name);
     next();
 });
 
 
 //create the model
-const todoModel = mongoose.module('ToDo', todoSchema);
+const todoModel = mongoose.model('ToDo', todoSchema);
 
 //export the model
-module.exports = todoSchema;
+module.exports = todoModel;
 
 
 
 function slugify(text) {
+
     return text.toString().toLowerCase()
       .replace(/\s+/g, '-')           // Replace spaces with -
       .replace(/[^\w\-]+/g, '')       // Remove all non-word chars

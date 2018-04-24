@@ -1,10 +1,10 @@
 {
-  "name": "node-crud",
+  "name": "crud",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "codevibess",
   "license": "ISC",
@@ -13,7 +13,8 @@
     "ejs": "^2.5.9",
     "express": "^4.16.3",
     "express-ejs-layouts": "^2.4.0",
-    "mongoose": "^5.0.15",
+    "mongoose": "^5.0.16",
     "nodemon": "^1.17.3"
-  }
+  },
+  "description": ""
 }

@@ -7,4 +7,8 @@ module.exports = router;
 
 
 router.get('/', mainController.showHome);
-router.get('/todo', todosController.showTodos);
+router.get('/todos', todosController.showTodos);
+
+router.get('/todos/seed', todosController.seedTodo);
+
+router.get('/todos/:slug', todosController.showSingle);

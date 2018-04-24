@@ -17,6 +17,12 @@ app.set('view engine', 'ejs');
 app.use(expressLayouts);
 
 mongoose.connect(process.env.DB_URI);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
+  console.log("Succesfull conection to database");
+});
 
 //set the routes
 app.use(require('./app/routes'));
