@@ -1,30 +1,52 @@
 const ToDo = require('../models/todos');
+
 module.exports = {
-    //show all todos
-    showTodos: (req, res) => {
-        //dummy todos to test
+    showTodos: showTodos,
+    showSingle: showSingle,
+    seedTodo: seedTodo
+}
+/**
+ * Show all todos
+ */
+function showTodos(req, res) {
+   ToDo.find({}, (err, todos)=>{
+       if(err){
+           res.send(404);
+           res.send('Events not found');
+       }
+       res.render('pages/todos', { todos: todos });
+   })
+   };
 
-        res.render('pages/todos', { todos: todos });
-    },
-    showSingle: (req, res) => {
-        const todo = { name: "Homework", slug: "homework", description: 'Finish Math' };
-        res.render('pages/single', { todo: todo });
-    },
-    //seed db
-    seedTodo: (req, res) => {
-        const todos = [
-            { name: "Homework", description: 'Finish Math' },
-            { name: "Home", description: 'Finish Math' },
-            { name: "Homesss", description: 'Finish Math' },
-        ];
+/**
+ * Show single Page
+ */
+function showSingle(req, res) {
+    ToDo.findOne({slug: req.params.slug},(err, todo)=>{
+        if(err){
+            res.send(404);
+            res.send('Events not found');
+        }
+    res.render('pages/single', { todo: todo });
+});
+}
 
-        ToDo.remove({}, ()=>{
-            for (key of todos) {
-                const newTodo = new ToDo(key);
-                newTodo.save();
-            }
-        })
-        
-        res.send("Database succesfully seeded")
-    }
-};
+/**
+ * Seed  DB
+ */
+function seedTodo(req, res) {
+    const todos = [
+        { name: "Homework", description: 'Finish Math' },
+        { name: "Home", description: 'Finish Math' },
+        { name: "Homesss", description: 'Finish Math' },
+    ];
+
+    ToDo.remove({}, () => {
+        for (key of todos) {
+            const newTodo = new ToDo(key);
+            newTodo.save();
+        }
+    })
+
+    res.send("Database succesfully seeded")
+}
