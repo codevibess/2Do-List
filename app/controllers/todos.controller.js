@@ -3,7 +3,9 @@ const ToDo = require('../models/todos');
 module.exports = {
     showTodos: showTodos,
     showSingle: showSingle,
-    seedTodo: seedTodo
+    seedTodo: seedTodo,
+    showCreate: showCreate,
+    processCreate: processCreate
 }
 /**
  * Show all todos
@@ -12,7 +14,7 @@ function showTodos(req, res) {
    ToDo.find({}, (err, todos)=>{
        if(err){
            res.send(404);
-           res.send('Events not found');
+           res.send('Task not found');
        }
        res.render('pages/todos', { todos: todos });
    })
@@ -25,7 +27,7 @@ function showSingle(req, res) {
     ToDo.findOne({slug: req.params.slug},(err, todo)=>{
         if(err){
             res.send(404);
-            res.send('Events not found');
+            res.send('Task not found');
         }
     res.render('pages/single', { todo: todo });
 });
@@ -48,5 +50,27 @@ function seedTodo(req, res) {
         }
     })
 
-    res.send("Database succesfully seeded")
+    res.send('Database succesfully seeded')
+}
+
+/**
+ Show the create form
+ */
+function showCreate(req, res) {
+    res.render('pages/create');
+}
+/**
+ * Process the creation form
+ */
+function processCreate(req, res) {
+    const todo = new ToDo({
+        name: req.body.name,
+        description: req.body.description
+    });
+    todo.save((err)=>{
+        if(err){
+            throw err;
+        }
+        res.redirect(`/todos`);
+    });
 }
