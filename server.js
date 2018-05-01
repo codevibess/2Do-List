@@ -7,10 +7,23 @@ const expressLayouts = require('express-ejs-layouts');
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
+
 const port = process.env.port || 8080;
 
 
+app.use(cookieParser());
+app.use(session({
+  secret: process.env.secret,
+  cookie: { maxAge:8000 },
+  resave: false, // 
+  saveUninitialized: false // dont save unmodified session
+}));
+app.use(flash());
 
+//observe the statuc files 
 app.use(express.static(__dirname + '/public'));
 
 
@@ -22,7 +35,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 
-  console.log("Succesfull conection to database");
+  console.log("successfull conection to database");
 });
 
 app.use(bodyParser.urlencoded({extended: true}));

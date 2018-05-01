@@ -29,7 +29,10 @@ function showSingle(req, res) {
             res.send(404);
             res.send('Task not found');
         }
-    res.render('pages/single', { todo: todo });
+    res.render('pages/single', { 
+        todo: todo,
+        success: req.flash('success')
+     });
 });
 }
 
@@ -50,7 +53,7 @@ function seedTodo(req, res) {
         }
     })
 
-    res.send('Database succesfully seeded')
+    res.send('Database successfully seeded')
 }
 
 /**
@@ -71,6 +74,8 @@ function processCreate(req, res) {
         if(err){
             throw err;
         }
+
+        req.flash('success', 'Task successfully created');
         res.redirect(`/todos`);
     });
 }

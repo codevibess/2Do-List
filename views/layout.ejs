@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,28 +8,39 @@
     <title>To DO app</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
-    
-</head
-<body>
-    <header id="site-header">
-        <div class="navbar navbar-inverse">
-            <div class="container">
-                <div class="navbar-header">
-                    <a href="/" class="navbar-brand">TO DO</a>
-                </div>
-            </div>
-        </div>
-    </header>
 
-    <main id="site-main">
+</head <body>
+<header id="site-header">
+    <div class="navbar navbar-inverse">
         <div class="container">
-            <%- body %>
+            <div class="navbar-header">
+                <a href="/" class="navbar-brand">TO DO</a>
+            </div>
+            <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/todos">Tasks</a>
+                    </li>
+                    <li>
+                        <a href="/todos/create">Create a task</a>
+                    </li>
+                </ul>
         </div>
-    </main>
+    </div>
+</header>
 
-    <footer id="site-footer">
-    <link rel="stylesheet" href="/css/style.css">
-    Copyright &copy; 2018 To Do App by <a href="https://github.com/codevibess">codevibess</a>
-    </footer>
+
+
+
+<main id="site-main">
+    <div class="container">
+        <%- body %>
+    </div>
+</main>
+
+<footer id="site-footer">
+    <link rel="stylesheet" href="/css/style.css"> Copyright &copy; 2018 To Do App by
+    <a href="https://github.com/codevibess">codevibess</a>
+</footer>
 </body>
+
 </html>
