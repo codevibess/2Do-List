@@ -5,7 +5,9 @@ module.exports = {
     showSingle: showSingle,
     seedTodo: seedTodo,
     showCreate: showCreate,
-    processCreate: processCreate
+    processCreate: processCreate,
+    showEdit: showEdit,
+    processEdit: processEdit
 }
 /**
  * Show all todos
@@ -78,4 +80,33 @@ function processCreate(req, res) {
         req.flash('success', 'Task successfully created');
         res.redirect(`/todos`);
     });
+}
+
+
+function showEdit(req, res) {
+    ToDo.findOne({slug: req.params.slug}, (err, todo)=>{
+        res.render('pages/edit',{
+            todo: todo
+        });
+    });
+    
+}
+
+function processEdit(req, res) {
+    //finding a current task
+    ToDo.findOne({slug: req.params.slug}, (err, todo)=>{
+        //update task
+        todo.name = req.body.name;
+        todo.description = req.body.description;
+
+        todo.save((err)=>{
+            if(err){
+                throw err;
+
+                req.flash('succes', 'Succesfully update task');
+                res.redirect('/todos');
+            }
+        })
+    })
+
 }
