@@ -1,20 +1,10 @@
 const Todo = require('../models/todo');
 
-module.exports = {
-  showTodos: showTodos,
-  showSingle: showSingle,
-  seedTodos: seedTodos,
-  showCreate: showCreate,
-  processCreate: processCreate,
-  showEdit: showEdit,
-  processEdit: processEdit,
-  deleteTodo: deleteTodo
-}
 
 /**
  * Show all todos
  */
-function showTodos(req, res) {  
+function showTodos(req, res) {
   Todo.find({}, (err, todos) => {
     if (err) {
       res.status(404);
@@ -22,7 +12,7 @@ function showTodos(req, res) {
     }
 
     // return a view with data
-    res.render('pages/todos', { 
+    res.render('pages/todos', {
       todos: todos,
       success: req.flash('success')
     });
@@ -33,14 +23,13 @@ function showTodos(req, res) {
  * Show a single todo
  */
 function showSingle(req, res) {
-  // get a single todo
   Todo.findOne({ slug: req.params.slug }, (err, todo) => {
     if (err) {
       res.status(404);
       res.json('Todo not found!');
     }
 
-    res.render('pages/single', { 
+    res.render('pages/single', {
       todo: todo,
       success: req.flash('success')
     });
@@ -51,7 +40,6 @@ function showSingle(req, res) {
  * Seed the database
  */
 function seedTodos(req, res) {
-  // create some todos
   const todos = [
     { name: 'Basketball', description: 'Throwing into a basket.' },
     { name: 'Swimming', description: 'Michael Phelps is the fast fish.' },
@@ -140,9 +128,9 @@ function processEdit(req, res) {
     return res.redirect(`/todos/${req.params.slug}/edit`);
   }
 
- 
+
   Todo.findOne({ slug: req.params.slug }, (err, todo) => {
-    todo.name        = req.body.name;
+    todo.name = req.body.name;
     todo.description = req.body.description;
 
     todo.save((err) => {
@@ -165,4 +153,18 @@ function deleteTodo(req, res) {
     req.flash('success', 'Todo deleted!');
     res.redirect('/todos');
   });
+}
+
+
+
+
+module.exports = {
+  showTodos: showTodos,
+  showSingle: showSingle,
+  seedTodos: seedTodos,
+  showCreate: showCreate,
+  processCreate: processCreate,
+  showEdit: showEdit,
+  processEdit: processEdit,
+  deleteTodo: deleteTodo
 }
