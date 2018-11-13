@@ -1,4 +1,4 @@
-It`s a sample project created for "live demo" in presentation about "How to start in Node" prepared as a University home task for SSI.
+It`s a sample project used for "live demo" in presentation about "How to start in Node" prepared as a University home task for SSI.
 
 # Create a Node App
 
