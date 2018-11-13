@@ -1,0 +1,174 @@
+const Todo = require('../models/todo');
+
+module.exports = {
+  showTodos: showTodos,
+  showSingle: showSingle,
+  seedTodos: seedTodos,
+  showCreate: showCreate,
+  processCreate: processCreate,
+  showEdit: showEdit,
+  processEdit: processEdit,
+  deleteTodo: deleteTodo
+}
+
+/**
+ * Show all todos
+ */
+function showTodos(req, res) {
+  // get all todos   
+  Todo.find({}, (err, todos) => {
+    if (err) {
+      res.status(404);
+      res.send('Todos not found!');
+    }
+
+    // return a view with data
+    res.render('pages/todos', { 
+      todos: todos,
+      success: req.flash('success')
+    });
+  });
+}
+
+/**
+ * Show a single todo
+ */
+function showSingle(req, res) {
+  // get a single todo
+  Todo.findOne({ slug: req.params.slug }, (err, todo) => {
+    if (err) {
+      res.status(404);
+      res.send('Todo not found!');
+    }
+
+    res.render('pages/single', { 
+      todo: todo,
+      success: req.flash('success')
+    });
+  });
+}
+
+/**
+ * Seed the database
+ */
+function seedTodos(req, res) {
+  // create some todos
+  const todos = [
+    { name: 'Basketball', description: 'Throwing into a basket.' },
+    { name: 'Swimming', description: 'Michael Phelps is the fast fish.' },
+    { name: 'Weightlifting', description: 'Lifting heavy things up' },
+    { name: 'Ping Pong', description: 'Super fast paddles' }
+  ];
+
+  // use the Todo model to insert/save
+  Todo.remove({}, () => {
+    for (todo of todos) {
+      var newTodo = new Todo(todo);
+      newTodo.save();
+    }
+  });
+
+  // seeded!
+  res.send('Database seeded!');
+}
+
+/**
+ * Show the create form
+ */
+function showCreate(req, res) {
+  res.render('pages/create', {
+    errors: req.flash('errors')
+  });
+}
+
+/**
+ * Process the creation form
+ */
+function processCreate(req, res) {
+  // validate information
+  req.checkBody('name', 'Name is required.').notEmpty();
+  req.checkBody('description', 'Description is required.').notEmpty();
+
+  // if there are errors, redirect and save errors to flash
+  const errors = req.validationErrors();
+  if (errors) {
+    req.flash('errors', errors.map(err => err.msg));
+    return res.redirect('/todos/create');
+  }
+
+  // create a new todo
+  const todo = new Todo({
+    name: req.body.name,
+    description: req.body.description
+  });
+
+  // save todo
+  todo.save((err) => {
+    if (err)
+      throw err;
+
+    // set a successful flash message
+    req.flash('success', 'Successfuly created todo!');
+
+    // redirect to the newly created todo
+    res.redirect(`/todos/${todo.slug}`);
+  });
+}
+
+/**
+ * Show the edit form
+ */
+function showEdit(req, res) {
+  Todo.findOne({ slug: req.params.slug }, (err, todo) => {
+    res.render('pages/edit', {
+      todo: todo,
+      errors: req.flash('errors')
+    });
+  });
+}
+
+/**
+ * Process the edit form
+ */
+function processEdit(req, res) {
+  // validate information
+  req.checkBody('name', 'Name is required.').notEmpty();
+  req.checkBody('description', 'Description is required.').notEmpty();
+
+  // if there are errors, redirect and save errors to flash
+  const errors = req.validationErrors();
+  if (errors) {
+    req.flash('errors', errors.map(err => err.msg));
+    return res.redirect(`/todos/${req.params.slug}/edit`);
+  }
+
+  // finding a current todo
+  Todo.findOne({ slug: req.params.slug }, (err, todo) => {
+    // updating that todo
+    todo.name        = req.body.name;
+    todo.description = req.body.description;
+
+    todo.save((err) => {
+      if (err)
+        throw err;
+
+      // success flash message
+      // redirect back to the /todos
+      req.flash('success', 'Successfully updated todo.');
+      res.redirect('/todos');
+    });
+  });
+
+}
+
+/**
+ * Delete an todo
+ */
+function deleteTodo(req, res) {
+  Todo.remove({ slug: req.params.slug }, (err) => {
+    // set flash data
+    // redirect back to the todos page
+    req.flash('success', 'Todo deleted!');
+    res.redirect('/todos');
+  });
+}
