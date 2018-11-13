@@ -21,7 +21,7 @@ todoSchema.pre('save', function(next) {
 // create the model
 const todoModel = mongoose.model('Todo', todoSchema);
 
-// export the model
+
 module.exports = todoModel;
 
 // function to slugify a name

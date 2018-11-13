@@ -4,10 +4,10 @@ const express      = require('express'),
   mainController   = require('./controllers/main.controller'),
   todosController = require('./controllers/todos.controller');
 
-// export router
-module.exports = router;
 
-// define routes
+
+
+
 // main routes
 router.get('/', mainController.showHome);
 
@@ -30,3 +30,6 @@ router.get('/todos/:slug/delete', todosController.deleteTodo);
 
 // show a single todo
 router.get('/todos/:slug', todosController.showSingle);
+
+
+module.exports = router;

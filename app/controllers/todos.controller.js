@@ -14,12 +14,11 @@ module.exports = {
 /**
  * Show all todos
  */
-function showTodos(req, res) {
-  // get all todos   
+function showTodos(req, res) {  
   Todo.find({}, (err, todos) => {
     if (err) {
       res.status(404);
-      res.send('Todos not found!');
+      res.json('Todos not found!');
     }
 
     // return a view with data
@@ -38,7 +37,7 @@ function showSingle(req, res) {
   Todo.findOne({ slug: req.params.slug }, (err, todo) => {
     if (err) {
       res.status(404);
-      res.send('Todo not found!');
+      res.json('Todo not found!');
     }
 
     res.render('pages/single', { 
@@ -85,7 +84,6 @@ function showCreate(req, res) {
  * Process the creation form
  */
 function processCreate(req, res) {
-  // validate information
   req.checkBody('name', 'Name is required.').notEmpty();
   req.checkBody('description', 'Description is required.').notEmpty();
 
@@ -96,7 +94,7 @@ function processCreate(req, res) {
     return res.redirect('/todos/create');
   }
 
-  // create a new todo
+
   const todo = new Todo({
     name: req.body.name,
     description: req.body.description
@@ -142,9 +140,8 @@ function processEdit(req, res) {
     return res.redirect(`/todos/${req.params.slug}/edit`);
   }
 
-  // finding a current todo
+ 
   Todo.findOne({ slug: req.params.slug }, (err, todo) => {
-    // updating that todo
     todo.name        = req.body.name;
     todo.description = req.body.description;
 
@@ -152,8 +149,7 @@ function processEdit(req, res) {
       if (err)
         throw err;
 
-      // success flash message
-      // redirect back to the /todos
+
       req.flash('success', 'Successfully updated todo.');
       res.redirect('/todos');
     });
@@ -166,8 +162,6 @@ function processEdit(req, res) {
  */
 function deleteTodo(req, res) {
   Todo.remove({ slug: req.params.slug }, (err) => {
-    // set flash data
-    // redirect back to the todos page
     req.flash('success', 'Todo deleted!');
     res.redirect('/todos');
   });
