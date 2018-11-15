@@ -39,25 +39,7 @@ function showSingle(req, res) {
 /**
  * Seed the database
  */
-function seedTodos(req, res) {
-  const todos = [
-    { name: 'Basketball', description: 'Throwing into a basket.' },
-    { name: 'Swimming', description: 'Michael Phelps is the fast fish.' },
-    { name: 'Weightlifting', description: 'Lifting heavy things up' },
-    { name: 'Ping Pong', description: 'Super fast paddles' }
-  ];
 
-  // use the Todo model to insert/save
-  Todo.remove({}, () => {
-    for (todo of todos) {
-      var newTodo = new Todo(todo);
-      newTodo.save();
-    }
-  });
-
-  // seeded!
-  res.send('Database seeded!');
-}
 
 /**
  * Show the create form
@@ -161,7 +143,6 @@ function deleteTodo(req, res) {
 module.exports = {
   showTodos: showTodos,
   showSingle: showSingle,
-  seedTodos: seedTodos,
   showCreate: showCreate,
   processCreate: processCreate,
   showEdit: showEdit,

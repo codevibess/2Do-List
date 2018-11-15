@@ -7,15 +7,13 @@ const express      = require('express'),
 
 
 
-
 // main routes
 router.get('/', mainController.showHome);
 
 // todo routes
 router.get('/todos',       todosController.showTodos);
 
-// seed todos
-router.get('/todos/seed',  todosController.seedTodos);
+
 
 // create todos
 router.get('/todos/create',  todosController.showCreate);
