@@ -2,7 +2,7 @@ It`s a sample project used for "live demo" in presentation about "How to start i
 
 # Create an Express Server
 
-We'll cover the concepts necessary to handle creating a CRUD Node application.
+We'll cover the concepts necessary to handle creating a CRUD Node.js/Express.js application.
 
 ## Installation
 
