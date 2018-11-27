@@ -1,6 +1,6 @@
 It`s a sample project used for "live demo" in presentation about "How to start in Node" prepared as a University home task for SSI.
 
-# Create an Express Server
+# Create an ToDo app with Express.js 
 
 We'll cover the concepts necessary to handle creating a CRUD Node.js/Express.js application.
 
